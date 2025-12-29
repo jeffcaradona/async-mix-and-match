@@ -1,0 +1,23 @@
+name: Snyk Code Analysis
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  snyk:
+    name: Snyk Code Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6.0.1
+        with:
+          fetch-depth: 0  # Full git history for better analysis
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@0.4.0
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
