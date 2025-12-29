@@ -9,6 +9,8 @@ jobs:
   snyk:
     name: Snyk Code Analysis
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6.0.1
         with:
