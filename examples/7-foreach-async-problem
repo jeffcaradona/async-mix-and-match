@@ -1,0 +1,60 @@
+// foreach-async-problem.mjs
+// Run with: node foreach-async-problem.mjs
+
+// Simulate async persistence
+async function saveUser(user) {
+  console.log(`Starting save for ${user}`);
+
+  // Random delay to simulate DB/network
+  await new Promise((resolve) =>
+    setTimeout(resolve, Math.random() * 1000)
+  );
+
+  console.log(`Finished save for ${user}`);
+}
+
+async function demoForEachProblem() {
+  const users = ["Alice", "Bob", "Charlie", "Diana"];
+
+  console.log("\n=== Using forEach with async callback ===");
+
+  users.forEach(async (user) => {
+    await saveUser(user);
+  });
+
+  console.log("This logs BEFORE saves complete ❌");
+}
+
+async function demoCorrectSequential() {
+  const users = ["Alice", "Bob", "Charlie", "Diana"];
+
+  console.log("\n=== Using for...of (sequential, awaited) ===");
+
+  for (const user of users) {
+    await saveUser(user);
+  }
+
+  console.log("This logs AFTER saves complete ✅");
+}
+
+async function demoCorrectParallel() {
+  const users = ["Alice", "Bob", "Charlie", "Diana"];
+
+  console.log("\n=== Using Promise.all (parallel, awaited) ===");
+
+  await Promise.all(
+    users.map((user) => saveUser(user))
+  );
+
+  console.log("All saves complete (parallel) ✅");
+}
+
+// Run demos in sequence
+await demoForEachProblem();
+
+// Give time to visually separate output
+await new Promise((r) => setTimeout(r, 2000));
+
+await demoCorrectSequential();
+
+await demoCorrectParallel();
