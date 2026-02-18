@@ -1,11 +1,15 @@
-// foreach-exits-early.mjs
-// Run with: node foreach-exits-early.mjs
+// ❌ DANGER: forEach can let the process exit while async work is still in-flight
+// Run with: node examples/7c-foreach-exits-early.js
 //
 // This demonstrates a real production failure mode:
 // the process exits cleanly while async work is still "in flight" —
 // because nothing is keeping the event loop alive.
 //
 // We intentionally schedule work in a way that DOES NOT keep Node alive.
+//
+// Two approaches are compared:
+//   1. ❌ forEach — fire-and-forget writes may be lost if the process exits
+//   2. ✅ Promise.all — awaiting all writes prevents early exit
 
 import { setTimeout as delay } from "node:timers/promises";
 
@@ -26,6 +30,13 @@ async function saveUserFireAndForget(user) {
   console.log(`✅ Saved ${user}`);
 }
 
+/**
+ * ❌ DANGEROUS: forEach fires all async callbacks and ignores their Promises.
+ * The outer async function returns as soon as forEach returns — before any
+ * of the saveUserFireAndForget calls have completed.  If nothing else is
+ * keeping the event loop alive after this point, Node.js can exit and all
+ * in-flight writes will be silently lost.
+ */
 async function dangerousForEach() {
   console.log("\n=== DANGEROUS VERSION (forEach + fire-and-forget) ===");
 
@@ -40,6 +51,11 @@ async function dangerousForEach() {
   console.log("If Node exits now with code 0, those writes are lost.\n");
 }
 
+/**
+ * ✅ SAFE: Promise.all collects every Promise returned by the map and awaits
+ * the entire batch.  The outer async function does not return until every
+ * write has settled, so the process cannot exit before the work is done.
+ */
 async function safeVersionPromiseAll() {
   console.log("\n=== SAFE VERSION (Promise.all) ===");
 
