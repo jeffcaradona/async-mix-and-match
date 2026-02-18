@@ -175,6 +175,9 @@ Learn by seeing the good and bad patterns in action:
 - [examples/5-what-not-to-do.js](examples/5-what-not-to-do.js) - ❌ Common anti-patterns
 - [examples/6-bad-vs-good-dualmode.js](examples/6-bad-vs-good-dualmode.js) - ⚡ Bad vs Good: Double execution & performance
 - [examples/6b-deopt-analysis.js](examples/6b-deopt-analysis.js) - 🔬 V8 optimization analysis
+- [examples/7-foreach-async-problem](examples/7-foreach-async-problem) - ❌ forEach does not await async callbacks
+- [examples/7b-foreach-fails-silently.js](examples/7b-foreach-fails-silently.js) - ❌ forEach silently swallows async errors
+- [examples/7c-foreach-exits-early.js](examples/7c-foreach-exits-early.js) - ❌ forEach allows process exit with in-flight writes
 
 ### Testing
 - [test-suite.js](test-suite.js) - Comprehensive test demonstrating all patterns
@@ -193,6 +196,9 @@ node examples/4-dual-mode.js              # Dual-mode pattern
 node examples/5-what-not-to-do.js         # Anti-patterns
 node examples/6-bad-vs-good-dualmode.js   # Double execution demo
 node examples/6b-deopt-analysis.js        # Performance & optimization
+node examples/7-foreach-async-problem     # forEach async timing problem
+node examples/7b-foreach-fails-silently.js  # forEach silent error swallowing
+node examples/7c-foreach-exits-early.js   # forEach early process exit
 ```
 
 ---

@@ -48,14 +48,19 @@ node examples/4-dual-mode.js          # How libraries support both
 
 ## 💻 Examples & Tests
 
-### Five Example Files
+### Ten Example Files
 ```
 examples/
-├── 1-broken-mixing.js       # ❌ What NOT to do
-├── 2-callback-only.js       # ✅ Traditional pattern
-├── 3-promise-only.js        # ✅ Modern pattern
-├── 4-dual-mode.js          # ✅ How libraries do it
-└── 5-what-not-to-do.js     # ❌ Common mistakes
+├── 1-broken-mixing.js           # ❌ What NOT to do
+├── 2-callback-only.js           # ✅ Traditional pattern
+├── 3-promise-only.js            # ✅ Modern pattern
+├── 4-dual-mode.js               # ✅ How libraries do it
+├── 5-what-not-to-do.js          # ❌ Common mistakes
+├── 6-bad-vs-good-dualmode.js    # ⚡ Double execution & performance
+├── 6b-deopt-analysis.js         # 🔬 V8 optimization analysis
+├── 7-foreach-async-problem      # ❌ forEach ignores async callbacks
+├── 7b-foreach-fails-silently.js # ❌ forEach swallows async errors
+└── 7c-foreach-exits-early.js    # ❌ forEach allows early process exit
 ```
 
 Run any example:
